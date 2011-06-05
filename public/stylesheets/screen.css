@@ -1,0 +1,39 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+@import "compass/reset" ;;
+/* line 8, ../sass/screen.sass */
+html {
+  background-color: #eeeeee;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+/* line 12, ../sass/screen.sass */
+html, body {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* line 17, ../sass/screen.sass */
+#source_view {
+  width: 25%;
+  float: left;
+}
+
+/* line 20, ../sass/screen.sass */
+#chat {
+  width: 75%;
+  float: left;
+}
+
+/* line 25, ../sass/screen.sass */
+#publisher {
+  width: 100%;
+}
+/* line 27, ../sass/screen.sass */
+#publisher input {
+  font-size: 16px;
+  padding: 8px;
+  width: 100%;
+}
