@@ -52,9 +52,10 @@ Stream = Spine.Controller.create
     value = target.val()
     @stream.send value
 #    console.log $(@m
-    $(@messages).append "<p>#{value}</p>"
+    d = new Date()
+    $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime='#{d.format('isoDateTime')}'></time></p></li>"
     $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
-    
+    $(@el).find('time').timeago();
     target.val ""
     false
     
@@ -64,3 +65,4 @@ $(document).ready ->
   stream = Stream.init
     el: $('#chat')
     stream: new r.Chat()
+  # jQuery("time.timeago").timeago()

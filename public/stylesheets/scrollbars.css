@@ -2,10 +2,11 @@
 ::-webkit-scrollbar {
   /* set the width of the scroll bar */
   width: 10px;
-  background: -webkit-gradient(linear, 0 0, 100% 0, from(#555555), to(#333333));
+  background: -webkit-gradient(linear, 0 0, 100% 0, from(#aaaaaa), to(#888888));
+  opacity: 0.2;
 }
 
-/* line 15, ../sass/scrollbars.scss */
+/* line 16, ../sass/scrollbars.scss */
 ::-webkit-scrollbar-button:start:decrement,
 ::-webkit-scrollbar-button:end:increment {
   /* hide the arrows */
@@ -13,7 +14,7 @@
   height: 10px;
 }
 
-/* line 21, ../sass/scrollbars.scss */
+/* line 22, ../sass/scrollbars.scss */
 ::-webkit-scrollbar-track-piece {
   /* set the style/colour of the scroll bar background */
   background: -webkit-gradient(linear, 0 0, 100% 0, from(rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0.12)));
@@ -21,7 +22,7 @@
   -webkit-border-radius: 5px;
 }
 
-/* line 35, ../sass/scrollbars.scss */
+/* line 36, ../sass/scrollbars.scss */
 ::-webkit-scrollbar-thumb:vertical {
   /* this is the acutal scrooll bar, set the colours here to match your site */
   /* I have used grey's (#464646 & #383838 & #cccccc) */
@@ -30,18 +31,18 @@
   -webkit-background-clip: padding-box;
 }
 
-/* line 49, ../sass/scrollbars.scss */
+/* line 50, ../sass/scrollbars.scss */
 ::-webkit-scrollbar-track-piece:horizontal {
   background: none;
   -webkit-box-shadow: none;
 }
 
-/* line 53, ../sass/scrollbars.scss */
+/* line 54, ../sass/scrollbars.scss */
 ::-webkit-scrollbar:horizontal {
   height: 16px;
 }
 
-/* line 56, ../sass/scrollbars.scss */
+/* line 57, ../sass/scrollbars.scss */
 ::-webkit-scrollbar-thumb:horizontal {
   height: 12px;
   -webkit-border-radius: 12px;

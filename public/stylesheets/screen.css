@@ -75,24 +75,36 @@ html, body {
   box-pack: end;
 }
 /* line 83, ../sass/screen.sass */
-#chat p {
-  font-size: 14px;
-  color: #222222;
+#chat .messages li {
+  font-size: 17px;
+  color: #666666;
   padding: 8px 15px;
   width: 100%;
   margin-bottom: 1px;
   background: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#e7e7e7));
+  text-shadow: white 0px 1px 1px;
 }
 /* line 91, ../sass/screen.sass */
-#chat p:last-child {
+#chat .messages li:last-child {
   margin-bottom: 39px;
 }
+/* line 94, ../sass/screen.sass */
+#chat .messages li p.details {
+  margin-top: 4px;
+  font-size: 11px;
+}
+/* line 97, ../sass/screen.sass */
+#chat .messages li p.details a {
+  color: #777777;
+  font-weight: bold;
+  text-decoration: none;
+}
 
-/* line 95, ../sass/screen.sass */
+/* line 103, ../sass/screen.sass */
 #publisher {
   width: 100%;
 }
-/* line 98, ../sass/screen.sass */
+/* line 106, ../sass/screen.sass */
 #publisher form input {
   position: absolute;
   bottom: 0px;

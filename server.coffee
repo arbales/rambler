@@ -59,7 +59,12 @@ app.configure 'production', ->
 # everyauth.helpExpress app
 
 
-
+persister = {
+  incoming: (message, callback) ->
+    if message.channel isnt '/meta/subscribe'
+      return callback messsage
+    
+}
 
   
 

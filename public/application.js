@@ -67,12 +67,14 @@
       return this.messages = (_ref = this.el.find('.messages')) != null ? _ref[0] : void 0;
     },
     send: function(event) {
-      var target, value;
+      var d, target, value;
       target = $(event.currentTarget).find("input");
       value = target.val();
       this.stream.send(value);
-      $(this.messages).append("<p>" + value + "</p>");
+      d = new Date();
+      $(this.messages).append("<li>" + value + "<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime='" + (d.format('isoDateTime')) + "'></time></p></li>");
       $(this.messages).prop("scrollTop", $(this.messages).prop("scrollHeight"));
+      $(this.el).find('time').timeago();
       target.val("");
       return false;
     }
