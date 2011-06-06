@@ -1,16 +1,21 @@
 sys = require 'sys'
 http = require 'http'  
 express = require 'express'    
-
+env = process.env
+# The streaming system
 live = require 'faye'         
 
-mongoose = require('mongoose')
+# For Dataz
+mongoose = require 'mongoose'
 Schema = mongoose.Schema
-
 mongoose.connect('mongodb://localhost/rambler2_development')
 
-app = express.createServer()      
+# The Auth library
+everyauth = require 'everyauth' 
 
+# App Setup
+
+module.exports = app = express.createServer()      
 live = new live.NodeAdapter {
   mount:    '/live',
   timeout:  45     
@@ -20,37 +25,49 @@ live = new live.NodeAdapter {
     port:   '6379'
 }
 
-
-
 app.configure ->
   app.set 'views', __dirname + '/views'
-  # app.use express.bodyDecoder()
   app.use express.methodOverride()
   app.use express.logger()
   app.use express.bodyParser()
   app.use express.compiler(
-    src: __dirname + '/app', 
+    src: __dirname + '/client', 
     dest: __dirname + '/public',
-    enable: ['sass', 'coffeescript'] # Renders less and coffee files inside app/ to public/
+    enable: ['coffeescript'] # Renders less and coffee files inside app/ to public/
   )
   app.use(express.static(__dirname + '/public'));
   app.use app.router
-  # app.use express.staticProvider(__dirname + '/public')      
+  app.use everyauth.middleware()
   
 app.configure 'development', ->
   app.use express.errorHandler({ dumpExceptions: true, showStack: true }) 
 
-
 app.configure 'production', ->
   app.use express.errorHandler()
-  
+
+
+
+# Connect Everyauth to the express application
+# everyauth.facebook
+#   .myHostname("http://localhost:3000")
+#   .appId(env.FACEBOOK_APP_ID)
+#   .appSecret(env.FACEBOOK_APP_SECRET)
+#   .findOrCreateUser (session, token, meta) =>
+#     sys.puts session
+#     
+# everyauth.debug = true
+# everyauth.helpExpress app
+
+
+
+
   
 
 
 app.get '/', (req, res) ->
   res.render 'index.jade', {
     locals: {
-        title: 'Express-Juggernaut demo'
+        title: 'Rambler'
     }
   }
 
