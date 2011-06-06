@@ -1,5 +1,5 @@
 (function() {
-  var Rambler, chat, m;
+  var Rambler, Stream, chat, r;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -9,11 +9,13 @@
     return child;
   };
   this.Rambler = Rambler = {
-    Models: {}
+    Models: {},
+    Views: {},
+    Resources: {}
   };
   Rambler.client = new Faye.Client('/live');
-  m = Rambler.Models;
-  m.Channel = (function() {
+  r = Rambler.Resources;
+  r.Channel = (function() {
     function Channel(name) {
       var _ref;
             if ((_ref = this.name) != null) {
@@ -46,8 +48,8 @@
     };
     return Channel;
   })();
-  m.Chat = (function() {
-    __extends(Chat, m.Channel);
+  r.Chat = (function() {
+    __extends(Chat, r.Channel);
     function Chat() {
       Chat.__super__.constructor.apply(this, arguments);
     }
@@ -55,12 +57,31 @@
     Chat.prototype.url = "/chat";
     return Chat;
   })();
-  chat = new m.Chat();
-  $(document).ready(function() {
-    return $('#publisher').submit(function(event) {
-      chat.send($('#publisher input').val());
-      $('#publisher input').val("");
+  chat = new r.Chat();
+  Stream = Spine.Controller.create({
+    events: {
+      "submit #publisher": "send"
+    },
+    init: function() {
+      var _ref;
+      return this.messages = (_ref = this.el.find('.messages')) != null ? _ref[0] : void 0;
+    },
+    send: function(event) {
+      var target, value;
+      target = $(event.currentTarget).find("input");
+      value = target.val();
+      this.stream.send(value);
+      $(this.messages).append("<p>" + value + "</p>");
+      $(this.messages).prop("scrollTop", $(this.messages).prop("scrollHeight"));
+      target.val("");
       return false;
+    }
+  });
+  $(document).ready(function() {
+    var stream;
+    return stream = Stream.init({
+      el: $('#chat'),
+      stream: new r.Chat()
     });
   });
 }).call(this);

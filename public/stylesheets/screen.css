@@ -2,38 +2,107 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-@import "compass/reset" ;;
+/* @import "compass/reset"; */
 /* line 8, ../sass/screen.sass */
 html {
   background-color: #eeeeee;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  min-width: 800px;
+  min-height: 800px;
 }
 
-/* line 12, ../sass/screen.sass */
+/* line 14, ../sass/screen.sass */
 html, body {
   margin: 0px;
   padding: 0px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-/* line 17, ../sass/screen.sass */
+/* line 24, ../sass/screen.sass */
+.flexbox, .split, #source_view, #chat, #chat .messages {
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+}
+
+/* line 29, ../sass/screen.sass */
+.split {
+  height: 100%;
+  width: 100%;
+  -webkit-box-align: stretch;
+}
+
+/* line 36, ../sass/screen.sass */
 #source_view {
+  -moz-box-align: start;
+  -webkit-box-align: start;
+  box-align: start;
   width: 25%;
-  float: left;
+  height: auto;
 }
 
-/* line 20, ../sass/screen.sass */
+/* line 45, ../sass/screen.sass */
 #chat {
+  border-left: 1px solid #999999;
+  -moz-box-align: end;
+  -webkit-box-align: end;
+  box-align: end;
+  -moz-box-orient: vertical;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
   width: 75%;
-  float: left;
+  height: 100%;
+  position: relative;
+  background-color: #cccccc;
+}
+/* line 65, ../sass/screen.sass */
+#chat:after {
+  content: "";
+}
+/* line 68, ../sass/screen.sass */
+#chat .messages {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -moz-box-orient: vertical;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -moz-box-pack: end;
+  -webkit-box-pack: end;
+  box-pack: end;
+}
+/* line 83, ../sass/screen.sass */
+#chat p {
+  font-size: 14px;
+  color: #222222;
+  padding: 8px 15px;
+  width: 100%;
+  margin-bottom: 1px;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#e7e7e7));
+}
+/* line 91, ../sass/screen.sass */
+#chat p:last-child {
+  margin-bottom: 39px;
 }
 
-/* line 25, ../sass/screen.sass */
+/* line 95, ../sass/screen.sass */
 #publisher {
   width: 100%;
 }
-/* line 27, ../sass/screen.sass */
-#publisher input {
-  font-size: 16px;
+/* line 98, ../sass/screen.sass */
+#publisher form input {
+  position: absolute;
+  bottom: 0px;
+  font-size: 18px;
   padding: 8px;
   width: 100%;
+  border: 1px solid #aaaaaa;
+  border-left: none;
+  border-bottom: none;
+  -moz-box-shadow: inset 0px 0px 5px #888888;
+  -webkit-box-shadow: inset 0px 0px 5px #888888;
+  box-shadow: inset 0px 0px 5px #888888;
 }

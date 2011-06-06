@@ -1,12 +1,14 @@
 this.Rambler = Rambler = {
   Models: {}
+  Views: {}
+  Resources: {}
 }   
 
 Rambler.client = new Faye.Client('/live') 
 
-m = Rambler.Models                           
+r = Rambler.Resources                           
 
-class m.Channel
+class r.Channel
   constructor: (name) ->  
     @name ?= name
     _.bindAll ['receive', 'subscribed', 'failure']
@@ -30,14 +32,35 @@ class m.Channel
     @subscription.cancel()
     
   
-class m.Chat extends m.Channel
+class r.Chat extends r.Channel
   name: "/chat"
   url: "/chat"
 
-chat = new m.Chat()
+chat = new r.Chat()
+
+#class Rambler.Views.Stream
+
+Stream = Spine.Controller.create
+  events:
+    "submit #publisher": "send"
+
+  init: ->
+    @messages = @el.find('.messages')?[0]
+    
+  send: (event) ->
+    target = $(event.currentTarget).find("input")
+    value = target.val()
+    @stream.send value
+#    console.log $(@m
+    $(@messages).append "<p>#{value}</p>"
+    $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
+    
+    target.val ""
+    false
+    
+
 
 $(document).ready ->
-  $('#publisher').submit (event) ->
-    chat.send $('#publisher input').val()
-    $('#publisher input').val ""
-    false
+  stream = Stream.init
+    el: $('#chat')
+    stream: new r.Chat()
