@@ -4,6 +4,7 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 /* @import "compass/reset";*/
+@import "compass/css3/box"
                                                                                 
 html      
   background-color: #EEE
@@ -21,42 +22,38 @@ html, body
   
 body
 
-.flexbox
-  display: -moz-box
-  display: -webkit-box
-  display: box
-  
-.split
-  @extend .flexbox
-  
+.vsplit
   height: 100%
   width: 100%
-  -webkit-box-align: stretch
+  +display-box
+  +box-align(stretch)
+  +box-pack(start)
+
+.split
+  +display-box
+  +box-align(stretch)
+  height: 100%
+  width: 100%
+
+.bottom
+  -moz-box-orient: vertical
+  -webkit-box-orient: vertical
+  box-orient: vertical
   
 #source_view
-  @extend .flexbox
-  -moz-box-align: start
-  -webkit-box-align: start
-  box-align: start
+  +display-box
+  +box-align(start)
   
   width: 25%  
   height: auto
   
 #chat
-  @extend .flexbox
-  
+  +display-box
+  +box-orient(vertical)
+  +box-pack(end)
+
+
   border-left: 1px solid #999
-  
-  -moz-box-align: end
-  -webkit-box-align: end
-  box-align: end
-  -moz-box-orient: vertical
-  -webkit-box-orient: vertical
-  box-orient: vertical
-  
-  // -moz-box-pack: end
-  // -webkit-box-pack: end
-  // box-pack: end
   
   width: 75% 
   height: 100%
@@ -65,19 +62,18 @@ body
   &:after
     content: ""
     clear:both
+
   .messages
-    @extend .flexbox
+    +display-box
+    +box-orient(vertical)
+    +box-pack(end)
+
     width: 100%
     height: 100%
     overflow-y: scroll
     overflow-x: hidden
-    -moz-box-orient: vertical
-    -webkit-box-orient: vertical
-    box-orient: vertical
 
-    -moz-box-pack: end
-    -webkit-box-pack: end
-    box-pack: end
+
     
     
     li

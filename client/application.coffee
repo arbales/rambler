@@ -17,9 +17,10 @@ class r.Channel
     @subscription.errback @failure 
     @
     
-  receive: (message) ->
-    console.log message
-     
+  receive: (message) =>
+    if @stream
+      @stream.add message.text
+
   subscribed: ->
     console.log "Subscribed #{@name}"
     
@@ -40,29 +41,51 @@ chat = new r.Chat()
 
 #class Rambler.Views.Stream
 
+Post = Spine.Model.setup "Post", ['body']
+#Post.extend Spine.Model.Ajax
+#Post.fetch()
+
+# class Post extends Backbone.Model
+#   defaults: {
+#     body: ""
+#   }
+#
+# class Posts extends Backbone.Collection
+#   url: ->
+#     "#{@channel.url}/posts"
+
 Stream = Spine.Controller.create
   events:
     "submit #publisher": "send"
 
   init: ->
     @messages = @el.find('.messages')?[0]
+    @channel.stream = @
+
+  pull: ->
+    $.ajax
+      url: '/chat/posts'
+      success: (data) =>
+        _.each data, (s) =>
+          @add s.body
     
   send: (event) ->
     target = $(event.currentTarget).find("input")
     value = target.val()
-    @stream.send value
-#    console.log $(@m
+    @channel.send value
     d = new Date()
-    $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime='#{d.format('isoDateTime')}'></time></p></li>"
-    $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
-    $(@el).find('time').timeago();
     target.val ""
     false
     
+  add: (value) ->
+    $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime='#{d.format('isoDateTime')}'></time></p></li>"
+    $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
+    $(@el).find('time').timeago()
+    false
 
 
 $(document).ready ->
   stream = Stream.init
     el: $('#chat')
-    stream: new r.Chat()
-  # jQuery("time.timeago").timeago()
+    channel: new r.Chat()
+  stream.pull()
