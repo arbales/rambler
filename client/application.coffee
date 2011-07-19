@@ -73,14 +73,15 @@ Stream = Spine.Controller.create
     target = $(event.currentTarget).find("input")
     value = target.val()
     @channel.send value
-    d = new Date()
     target.val ""
     false
     
   add: (value) ->
-    $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime='#{d.format('isoDateTime')}'></time></p></li>"
+    d = new Date()    
+    # $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime='#{d.format('isoDateTime')}'></time></p></li>"
+    $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime=''></time></p></li>"
     $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
-    $(@el).find('time').timeago()
+    # $(@el).find('time').timeago()
     false
 
 
