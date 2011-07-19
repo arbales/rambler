@@ -1,2 +1,4 @@
 node_modules/*
 public/.sass_cache/*
+public/stylesheets/*.css
+public/javascripts/*.js
