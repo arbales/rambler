@@ -10,7 +10,8 @@
     "express-mongoose": ">= 0.0.2",
     "coffee-script": ">= 1.1.1",
     "jade": ">= 0.12.1",
-    "mongoose-auth": "latest"
+    "mongoose-auth": "latest",
+    "request": "latest"
   },
   "engine": "node 0.4.7"
 }

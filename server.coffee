@@ -3,16 +3,18 @@ http = require 'http'
 express = require 'express'    
 env = process.env
 require 'express-mongoose'
-live = require 'faye'         
+live = require 'faye'  
+request = require 'request'       
 
 # For Dataz
 db = require('models').db
 
-# For auth
-mongooseAuth = require('models').mongooseAuth
+# Load authentication
+goose = require('models').mongooseAuth
 
-
-# App Setup
+##
+## Live
+##
 
 live = new live.NodeAdapter {
   mount:    '/live',
@@ -34,34 +36,47 @@ persister = {
       post = new Post({text: message.data.text, channel: message.channel, username: message.data.username, date: d})
       post.save()
     callback(message)
-}
-live.addExtension persister
+}  
+
+live.addExtension persister      
+
+#
+# Express
+#
 
 module.exports = app = express.createServer(
   express.bodyParser()
   express.cookieParser()
   express.session({secret: 'dgdfgsdf1234'})
-  mongooseAuth.middleware()
+  goose.middleware()
 )
+
+## Configuration
 
 app.configure ->
   app.set 'views', __dirname + '/views'
+  app.use(express.static(__dirname + '/public'));
   app.use express.methodOverride()
-  app.use(express.favicon())
   app.use express.logger()
   app.use express.compiler
     src: __dirname + '/client', 
     dest: __dirname + '/public',
     enable: ['coffeescript'] # Renders less and coffee files inside app/ to public/
-
-  app.use(express.static(__dirname + '/public'));
   
 app.configure 'development', ->
   app.use express.errorHandler({ dumpExceptions: true, showStack: true }) 
 
 app.configure 'production', ->
-  app.use express.errorHandler()
+  app.use express.errorHandler()       
+  
+  
+## Routes                                   
 
+app.get '/hello', (req, res) ->
+  if not req.loggedIn
+    res.redirect '/auth/github'
+  else
+   
 
 app.get '/reset', (req, res) ->
   Post = db.model 'Post'
@@ -82,14 +97,16 @@ app.get '/login', (req, res) ->
       title: 'Login to Rambler'
 
 app.get '/', (req, res) ->
-  if true
+  if req.loggedIn
     res.render 'index.jade'
       layout: 'app.jade'
       locals:
           title: 'Rambler'
   else
-    res.redirect '/login'
+    res.redirect '/auth/github' 
+    
+# Startup    
 
-mongooseAuth.helpExpress app
+goose.helpExpress app
 app.listen(3000)
 live.attach(app)
