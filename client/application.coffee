@@ -6,7 +6,16 @@ this.Rambler = Rambler = {
 
 Rambler.client = new Faye.Client('/live') 
 
-r = Rambler.Resources                           
+r = Rambler.Resources 
+
+Authenticater =
+  outgoing: (message, callback) ->    
+    console.log message
+    if message.data and not message.channel.match /\/meta\//
+      message.data.username = "arbales"
+    callback message
+
+Rambler.client.addExtension Authenticater    
 
 class r.Channel
   constructor: (name) ->  
@@ -18,8 +27,9 @@ class r.Channel
     @
     
   receive: (message) =>
-    if @stream
-      @stream.add message.text
+    if @stream     
+      console.log message
+      @stream.add message
 
   subscribed: ->
     console.log "Subscribed #{@name}"
@@ -53,7 +63,16 @@ Post = Spine.Model.setup "Post", ['body']
 # class Posts extends Backbone.Collection
 #   url: ->
 #     "#{@channel.url}/posts"
-
+    
+SourceView = Spine.Controller.create
+  events:
+    "click .hide": "hide" 
+          
+  hide: ->               
+    $(@partner_el).toggleClass "expanded"
+    $(@el).toggleClass "hidden"    
+        
+    
 Stream = Spine.Controller.create
   events:
     "submit #publisher": "send"
@@ -67,7 +86,9 @@ Stream = Spine.Controller.create
       url: '/chat/posts'
       success: (data) =>
         _.each data, (s) =>
-          @add s.body
+          @add s
+        if data.length < 1
+          @add {text: "There are no messages in this room.", username: "Rambler", style: 'initial'}
     
   send: (event) ->
     target = $(event.currentTarget).find("input")
@@ -76,17 +97,32 @@ Stream = Spine.Controller.create
     target.val ""
     false
     
-  add: (value) ->
-    d = new Date()    
-    # $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime='#{d.format('isoDateTime')}'></time></p></li>"
-    $(@messages).append "<li>#{value}<p class='details'><a class='user' href='/href'>username</a> <time class='timeago' datetime=''></time></p></li>"
+  add: (message) ->
+    # date = do (message)
+    #   if message.date and _date = Date.parse(message.date)
+    #     _date if date
+    date = if message.date? then message.date else (new Date()).toJSON()
+    msg = message?.text?.replace /(https?:\/\/[^\s]+)/g, (url) ->
+      "<a href='#{url}'>#{url}</a>"
+    el = $("<li>#{msg}<p class='details'><a class='user' href='/href'>#{message.username}</a> <time class='timeago' datetime='#{date}'></time></p></li>")  
+    row = $(@messages).append el   
+    el.prev().toggleClass('previous')                          
+    if message.style then el.addClass message.style
+    $(el).find('time').timeago()     
+    $(el).embedly
+      maxHeight: 300,
+      wmode: 'transparent',
+      method: 'replace'
     $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
-    # $(@el).find('time').timeago()
     false
 
 
 $(document).ready ->
   stream = Stream.init
     el: $('#chat')
-    channel: new r.Chat()
+    channel: new r.Chat()  
+  sidebar = SourceView.init
+    el: $('#source_view')
+    partner_el: $('#chat')
+    
   stream.pull()

@@ -1,14 +1,21 @@
 .split
+
   #source_view           
+    a.hide
+      img(src='/images/close-pane-16.png')
     p
-      a
-        img(src="https://graph.facebook.com/"+everyauth.facebook.user.id+"/picture?type=square", height=35)
+        //img(src="https://graph.facebook.com/"+everyauth.facebook.user.id+"/picture?type=square", height=35)
 
     ul
       li
+
+
   #chat
     ul.messages
-      li hello      
-    #publisher
+    #publisher     
       form
         input.body(type='text')
+      p.options                     
+        label
+          \ Show embedded content 
+          input(type='checkbox')

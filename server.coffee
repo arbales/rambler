@@ -23,17 +23,18 @@ live = new live.NodeAdapter {
     port:   '6379'
     namespace:  '/rambler'
 }
-
+  
 persister = {
   incoming: (message, callback) ->
+    console.log "PS"
     console.log message
     if message?.data?.text
-      Post = db.model 'Post'
-      post = new Post({body: message.data.text, channel: message.channel})
+      Post = db.model 'Post'                                                                                      
+      d = new Date()
+      post = new Post({text: message.data.text, channel: message.channel, username: message.data.username, date: d})
       post.save()
     callback(message)
 }
-
 live.addExtension persister
 
 module.exports = app = express.createServer(
@@ -81,8 +82,7 @@ app.get '/login', (req, res) ->
       title: 'Login to Rambler'
 
 app.get '/', (req, res) ->
-  if req.loggedIn
-    console.log req.user
+  if true
     res.render 'index.jade'
       layout: 'app.jade'
       locals:
