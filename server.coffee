@@ -4,7 +4,8 @@ express = require 'express'
 env = process.env
 require 'express-mongoose'
 live = require 'faye'  
-request = require 'request'       
+request = require 'request' 
+stitch = require 'stitch'      
 
 # For Dataz
 db = require('models').db
@@ -51,6 +52,9 @@ module.exports = app = express.createServer(
   goose.middleware()
 )
 
+package = stitch.createPackage
+  paths: ["#{__dirname}/client"]
+
 ## Configuration
 
 app.configure ->
@@ -69,41 +73,9 @@ app.configure 'development', ->
 app.configure 'production', ->
   app.use express.errorHandler()       
   
-  
-## Routes                                   
+app.get '/package.js', package.createServer()
 
-app.get '/hello', (req, res) ->
-  if not req.loggedIn
-    res.redirect '/auth/github'
-  else
-   
-
-app.get '/reset', (req, res) ->
-  Post = db.model 'Post'
-  Post.remove()
-
-app.get '/:channel/posts', (req, res) ->
-  Post = db.model 'Post'
-  res.send(Post.find({channel: "/#{req.params.channel}"},(->)))
-
-  
-app.get '/posts', (req, res) ->
-  Post = db.model 'Post'
-  res.send(Post.find({},(->)))
-
-app.get '/login', (req, res) ->
-  res.render 'login.jade'
-    locals:
-      title: 'Login to Rambler'
-
-app.get '/', (req, res) ->
-  if req.loggedIn
-    res.render 'index.jade'
-      layout: 'app.jade'
-      locals:
-          title: 'Rambler'
-  else
-    res.redirect '/auth/github' 
+require('routes.coffee')({app: app, db: db})
     
 # Startup    
 

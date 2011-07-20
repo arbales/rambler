@@ -1,4 +1,4 @@
-this.Rambler = Rambler = {
+exports.Rambler = Rambler = {
   Models: {}
   Views: {}
   Resources: {}
@@ -6,7 +6,7 @@ this.Rambler = Rambler = {
 
 Rambler.client = new Faye.Client('/live') 
 
-r = Rambler.Resources 
+Chat = require ('./chat').chat
 
 Authenticater =
   outgoing: (message, callback) ->    
@@ -17,52 +17,7 @@ Authenticater =
 
 Rambler.client.addExtension Authenticater    
 
-class r.Channel
-  constructor: (name) ->  
-    @name ?= name
-    _.bindAll ['receive', 'subscribed', 'failure']
-    @subscription = Rambler.client.subscribe @name, @receive
-    @subscription.callback @subscribed
-    @subscription.errback @failure 
-    @
-    
-  receive: (message) =>
-    if @stream     
-      console.log message
-      @stream.add message
-
-  subscribed: ->
-    console.log "Subscribed #{@name}"
-    
-  failure: (error) ->
-    console.warn error    
-
-  send: (text) ->   
-    Rambler.client.publish @name, {text: text}
-  cancel: ->           
-    @subscription.cancel()
-    
-  
-class r.Chat extends r.Channel
-  name: "/chat"
-  url: "/chat"
-
-chat = new r.Chat()
-
-#class Rambler.Views.Stream
-
-Post = Spine.Model.setup "Post", ['body']
-#Post.extend Spine.Model.Ajax
-#Post.fetch()
-
-# class Post extends Backbone.Model
-#   defaults: {
-#     body: ""
-#   }
-#
-# class Posts extends Backbone.Collection
-#   url: ->
-#     "#{@channel.url}/posts"
+chat = new Chat()
     
 SourceView = Spine.Controller.create
   events:
@@ -98,21 +53,22 @@ Stream = Spine.Controller.create
     false
     
   add: (message) ->
-    # date = do (message)
-    #   if message.date and _date = Date.parse(message.date)
-    #     _date if date
     date = if message.date? then message.date else (new Date()).toJSON()
     msg = message?.text?.replace /(https?:\/\/[^\s]+)/g, (url) ->
       "<a href='#{url}'>#{url}</a>"
     el = $("<li>#{msg}<p class='details'><a class='user' href='/href'>#{message.username}</a> <time class='timeago' datetime='#{date}'></time></p></li>")  
     row = $(@messages).append el   
+    
     el.prev().toggleClass('previous')                          
+    
     if message.style then el.addClass message.style
-    $(el).find('time').timeago()     
+    
+    $(el).find('time').timeago()         
     $(el).embedly
       maxHeight: 300,
       wmode: 'transparent',
       method: 'replace'
+    
     $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
     false
 
