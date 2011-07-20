@@ -15,7 +15,7 @@ You need **NPM**, Ruby 1.9.2 + Bundler. Prolly put CoffeeScript in your globals?
 ```
 
 ## Sass
-```sass
+```sh
   cd ~/Workspace/rambler-simple
   bundle install
   cd ./public
