@@ -1,5 +1,5 @@
 # Rambler, the next generation
-It's in Node and a saner front-end now.
+It's in Node and a saner front-end now. See Rambler1 at http://rambler.pris.ma or http://github.com/arbales/rambler. Awful.
 
 # Development
 You need **NPM**, Ruby 1.9.2 + Bundler. Prolly put CoffeeScript in your globals? `npm install coffee-script -g`
