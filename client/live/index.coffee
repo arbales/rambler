@@ -11,5 +11,5 @@ Rambler.Live.Authenticater =
   outgoing: (message, callback) ->    
     console.log message
     if message.data and not message.channel.match /\/meta\//
-      message.data.username = "arbales"
+      message.data.username = "placeholder"
     callback message
