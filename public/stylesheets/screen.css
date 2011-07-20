@@ -120,18 +120,20 @@ html, body {
   width: 75%;
   height: 100%;
   position: relative;
-  background: #aaaaaa url("/images/texture.png");
-  background-opacity: 50%;
+  background: #aaaaaa;
+  background-image: url("/images/logo-embossed.png"), url("/images/texture.png");
+  background-repeat: no-repeat, repeat;
+  background-position: center center, left left;
 }
 /* line 73, ../sass/screen.sass */
 #chat.expanded {
   width: 98%;
 }
-/* line 83, ../sass/screen.sass */
+/* line 85, ../sass/screen.sass */
 #chat:after {
   content: "";
 }
-/* line 87, ../sass/screen.sass */
+/* line 89, ../sass/screen.sass */
 #chat .messages {
   display: -moz-box;
   display: -webkit-box;
@@ -150,7 +152,7 @@ html, body {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* line 97, ../sass/screen.sass */
+/* line 99, ../sass/screen.sass */
 #chat .messages li {
   position: relative;
   overflow: hidden;
@@ -164,7 +166,7 @@ html, body {
   background: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#efefef));
   text-shadow: white 0px 1px 1px;
 }
-/* line 102, ../sass/screen.sass */
+/* line 104, ../sass/screen.sass */
 #chat .messages li.initial {
   -moz-transition: all 1s;
   -webkit-transition: all 1s;
@@ -184,15 +186,15 @@ html, body {
   transition-property: opacity;
   opacity: 0;
 }
-/* line 109, ../sass/screen.sass */
+/* line 111, ../sass/screen.sass */
 #chat .messages li.initial:last-child {
   opacity: 1;
 }
-/* line 119, ../sass/screen.sass */
+/* line 121, ../sass/screen.sass */
 #chat .messages li:last-child {
   margin-bottom: 72px;
 }
-/* line 122, ../sass/screen.sass */
+/* line 124, ../sass/screen.sass */
 #chat .messages li div.embed {
   border: 3px solid white;
   display: inline-block;
@@ -201,19 +203,19 @@ html, body {
   -o-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
 }
-/* line 127, ../sass/screen.sass */
+/* line 129, ../sass/screen.sass */
 #chat .messages li p.details {
   margin-top: 4px;
   font-size: 11px;
 }
-/* line 130, ../sass/screen.sass */
+/* line 132, ../sass/screen.sass */
 #chat .messages li p.details a {
   color: #777777;
   font-weight: bold;
   text-decoration: none;
 }
 
-/* line 136, ../sass/screen.sass */
+/* line 138, ../sass/screen.sass */
 #publisher {
   width: 100%;
   position: absolute;
@@ -225,7 +227,7 @@ html, body {
   -o-box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
   box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
 }
-/* line 144, ../sass/screen.sass */
+/* line 146, ../sass/screen.sass */
 #publisher p.options {
   line-height: 32px;
   margin-left: 16px;
@@ -234,19 +236,19 @@ html, body {
   color: #666666;
   text-shadow: rgba(255, 255, 255, 0.35) 0px 1px 1px;
 }
-/* line 153, ../sass/screen.sass */
+/* line 155, ../sass/screen.sass */
 #publisher p.options label input {
   padding-top: 1px;
   margin-left: 6px;
 }
-/* line 157, ../sass/screen.sass */
+/* line 159, ../sass/screen.sass */
 #publisher form {
   position: absolute;
   bottom: 32px;
   width: 100%;
   border-top: 1px solid #666666;
 }
-/* line 163, ../sass/screen.sass */
+/* line 165, ../sass/screen.sass */
 #publisher form input {
   position: absolute;
   left: 0px;

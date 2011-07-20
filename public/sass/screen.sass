@@ -77,9 +77,11 @@ body
   
   width: 75% 
   height: 100%
-  position: relative  
-  background: #aaa url('/images/texture.png')
-  background-opacity: 50%
+  position: relative      
+  background: #AAA
+  background-image: url('/images/logo-embossed.png'), url('/images/texture.png')
+  background-repeat: no-repeat, repeat
+  background-position: center center, left left
   &:after
     content: ""
     clear:both

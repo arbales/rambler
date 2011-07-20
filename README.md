@@ -33,4 +33,23 @@ You'll need the following envars set...
   GITHUB_APP_ID=''
   GITHUB_APP_SECRET=''
   GITHUB_ORGANIZATION_NAME='multimoon'
-```
+```      
+
+## TODO                                       
+
+### Fix
+    
+* Real Backbone models.
+* Limit access by GitHub org or invitation. Google apps login, too?
+
+### Core       
+        
+* Chrome Notifications
+* Topic/Channel Sidebar (places you've posted in) and Mentions (both show a list of messages, the latter is read-only)
+* Direct Messages
+                       
+### DSL for interesting things.
+    
+* `topic: That's no moon…` could set the topic.
+* `@username you're dumb` could bold a message, issue a counter update, and maybe send an e-mail
+* `imageme: Honey Badger` client-side imageme.
