@@ -15,12 +15,11 @@ window.Rambler = Rambler = {
 
 require 'models'
 require 'views'             
-require 'live'    # loads `live/index.coffee
 
 Rambler.client = new Faye.Client('/live')  
   
-Rambler.client.addExtension Rambler.Live.Persister
-Rambler.client.addExtension Rambler.Live.Authenticater    
+#Rambler.client.addExtension Rambler.Live.Persister
+#Rambler.client.addExtension Rambler.Live.Authenticater    
 
 class Rambler.Workspace extends Backbone.Router
   
@@ -35,12 +34,15 @@ class Rambler.Workspace extends Backbone.Router
     # Need to cleanup before doing this a second time?
     @stream = new Rambler.Views.Stream
       el: $('#chat')
-      channel: new Rambler.Models.Channel {name: name, url: "/#{name}"}
+      channel: new Rambler.Models.Channel
+        name: name,
+        url: "/#{name}"
         
     @sidebar = new Rambler.Views.SourceView
+      current_channel: name
       el: $('#source_view')
       partner_el: $('#chat')
-
+    @sidebar.render()
     @stream.pull()
 
 

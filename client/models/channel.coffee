@@ -1,7 +1,12 @@
 class Rambler.Models.Channel
-  intitialize: ->  
+
+  constructor: (opts) ->
+    @name = opts.name
+    @url = opts.url      
+    @stream = opts.stream
+    console.log opts
     _.bindAll ['receive', 'subscribed', 'failure']
-    @subscription = Rambler.client.subscribe @name, @receive
+    @subscription = Rambler.client.subscribe @url, @receive
     @subscription.callback @subscribed
     @subscription.errback @failure 
     @
@@ -19,6 +24,6 @@ class Rambler.Models.Channel
     console.warn error    
 
   send: (text) ->   
-    Rambler.client.publish @name, {text: text}
+    Rambler.client.publish @url, {text: text}
   cancel: ->           
     @subscription.cancel()

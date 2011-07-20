@@ -3,12 +3,12 @@ class Rambler.Views.Stream extends Rambler.Views.Base
   events:
     "submit #publisher": "send"
 
-  initialize: (options) ->
+  initialize: (options) ->  
     @channel = options.channel
     @messages = @el.find('.messages')?[0]
     @channel.stream = @
 
-  pull: ->
+  pull: ->                       
     $.ajax
       url: "/#{@channel.name}/posts"
       success: (data) =>
@@ -17,7 +17,8 @@ class Rambler.Views.Stream extends Rambler.Views.Base
         if data.length < 1
           @add {text: "There are no messages in this room. You're a pioneer.", username: "Rambler", style: 'initial'}
     
-  send: (event) ->
+  send: (event) ->  
+    event.preventDefault()
     target = $(event.currentTarget).find("input")
     value = target.val()
     @channel.send value
