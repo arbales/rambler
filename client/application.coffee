@@ -1,84 +1,50 @@
-exports.Rambler = Rambler = {
+# Namespaces
+
+window.Rambler = Rambler = {
   Models: {}
   Views: {}
-  Resources: {}
-}   
+  Resources: {}   
+  Live: {}
+}              
 
-Rambler.client = new Faye.Client('/live') 
+# Not really happy with doing this with Stitch.
+# Using "require" here seems wrong and bloated.
+#
+# TODO: Use something like Jammit instead.                           
+#
 
-Chat = require ('./chat').chat
+require 'models'
+require 'views'             
+require 'live'    # loads `live/index.coffee
 
-Authenticater =
-  outgoing: (message, callback) ->    
-    console.log message
-    if message.data and not message.channel.match /\/meta\//
-      message.data.username = "arbales"
-    callback message
+Rambler.client = new Faye.Client('/live')  
+  
+Rambler.client.addExtension Rambler.Live.Persister
+Rambler.client.addExtension Rambler.Live.Authenticater    
 
-Rambler.client.addExtension Authenticater    
-
-chat = new Chat()
+class Rambler.Workspace extends Backbone.Router
+  
+  routes:
+    "":             "chat"
+    "room/:name":   "room"
+                                                       
+  chat: ->
+    @room('chat')
     
-SourceView = Spine.Controller.create
-  events:
-    "click .hide": "hide" 
-          
-  hide: ->               
-    $(@partner_el).toggleClass "expanded"
-    $(@el).toggleClass "hidden"    
+  room: (name) ->                                
+    # Need to cleanup before doing this a second time?
+    @stream = new Rambler.Views.Stream
+      el: $('#chat')
+      channel: new Rambler.Models.Channel {name: name, url: "/#{name}"}
         
-    
-Stream = Spine.Controller.create
-  events:
-    "submit #publisher": "send"
+    @sidebar = new Rambler.Views.SourceView
+      el: $('#source_view')
+      partner_el: $('#chat')
 
-  init: ->
-    @messages = @el.find('.messages')?[0]
-    @channel.stream = @
-
-  pull: ->
-    $.ajax
-      url: '/chat/posts'
-      success: (data) =>
-        _.each data, (s) =>
-          @add s
-        if data.length < 1
-          @add {text: "There are no messages in this room.", username: "Rambler", style: 'initial'}
-    
-  send: (event) ->
-    target = $(event.currentTarget).find("input")
-    value = target.val()
-    @channel.send value
-    target.val ""
-    false
-    
-  add: (message) ->
-    date = if message.date? then message.date else (new Date()).toJSON()
-    msg = message?.text?.replace /(https?:\/\/[^\s]+)/g, (url) ->
-      "<a href='#{url}'>#{url}</a>"
-    el = $("<li>#{msg}<p class='details'><a class='user' href='/href'>#{message.username}</a> <time class='timeago' datetime='#{date}'></time></p></li>")  
-    row = $(@messages).append el   
-    
-    el.prev().toggleClass('previous')                          
-    
-    if message.style then el.addClass message.style
-    
-    $(el).find('time').timeago()         
-    $(el).embedly
-      maxHeight: 300,
-      wmode: 'transparent',
-      method: 'replace'
-    
-    $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
-    false
+    @stream.pull()
 
 
-$(document).ready ->
-  stream = Stream.init
-    el: $('#chat')
-    channel: new r.Chat()  
-  sidebar = SourceView.init
-    el: $('#source_view')
-    partner_el: $('#chat')
-    
-  stream.pull()
+$ ->
+  Rambler.app = new Rambler.Workspace()
+  Backbone.history.start {pushState: true}
+

@@ -25,12 +25,21 @@ module.exports = (context) ->
     res.render 'login.jade'
       locals:
         title: 'Login to Rambler'
+              
+  chat = (req, res) ->       
+    if req.session.returnTo
+      target = req.session.returnTo
+      req.session.returnTo = undefined
+      return res.redirect target
 
-  app.get '/', (req, res) ->
     if req.loggedIn
       res.render 'index.jade'
         layout: 'app.jade'
         locals:
             title: 'Rambler'
-    else
+    else                     
+      req.session.returnTo = req.url
       res.redirect '/auth/github'
+      
+  app.get '/', chat
+  app.get '/room/:name', chat

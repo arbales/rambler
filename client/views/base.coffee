@@ -1,0 +1,1 @@
+class Rambler.Views.Base extends Backbone.View

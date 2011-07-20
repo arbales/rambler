@@ -3,10 +3,9 @@
 html
   head
     title= title
-    script(src="/javascripts/vendor/underscore-min.js")
-    script(src="/javascripts/vendor/spine-min.js")
-    // script(src="/javascripts/spine.ajax.js")
     script(src="/javascripts/vendor/jquery.min.js") 
+    script(src="/javascripts/vendor/underscore.js")
+    script(src="/javascripts/vendor/backbone.js")
     script(src="/javascripts/vendor/date.js")
     script(src="/javascripts/vendor/jquery.timeago.js")
     script(src="//scripts.embed.ly/jquery.embedly.min.js")
@@ -17,5 +16,5 @@ html
     script(src="/live.js")
     script(src="/package.js")
     script
-      require('application')
+      require('application');
   body!= body

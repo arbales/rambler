@@ -2,24 +2,35 @@
 It's in Node and a saner front-end now.
 
 # Development
-Uses the `hub` gem. You also need **NPM**, Ruby 1.9.2 + Bundler. Prolly put CoffeeScript in your globals? `npm install coffee-script -g`
+You need **NPM**, Ruby 1.9.2 + Bundler. Prolly put CoffeeScript in your globals? `npm install coffee-script -g`
 
-```
+```sh
   cd ~/Workspace
-  git clone arbales/rambler-simple
+  git clone https://arbales@github.com/arbales/rambler-simple.git
   cd rambler-simple
   
   npm install
-  coffee server.coffee    
+  coffee server.coffee         
+  
 ```
 
-# Sass
-```
+## Sass
+```sass
   cd ~/Workspace/rambler-simple
   bundle install
   cd ./public
   compass watch
 ```
-
-# Reload
+       
+## Reload
 Run `npm install supervisor -g` and then `supervisor server.coffee`
+
+## Configurate
+
+You'll need the following envars set...
+
+```sh
+  GITHUB_APP_ID=''
+  GITHUB_APP_SECRET=''
+  GITHUB_ORGANIZATION_NAME='multimoon'
+```

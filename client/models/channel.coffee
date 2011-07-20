@@ -1,12 +1,11 @@
-class exports.Channel
-  constructor: (name) ->  
-    @name ?= name
+class Rambler.Models.Channel
+  intitialize: ->  
     _.bindAll ['receive', 'subscribed', 'failure']
     @subscription = Rambler.client.subscribe @name, @receive
     @subscription.callback @subscribed
     @subscription.errback @failure 
     @
-    
+  
   receive: (message) =>
     if @stream     
       console.log message
@@ -14,7 +13,7 @@ class exports.Channel
 
   subscribed: ->
     # You're awesome.
-    
+  
   failure: (error) ->
     # You're a failure.
     console.warn error    
