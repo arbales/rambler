@@ -1,6 +1,6 @@
 {
   "name": "rambler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A real time chat thingo.",
   "author": "Austin Bales <austin@417east.com>",
   "dependencies": {
