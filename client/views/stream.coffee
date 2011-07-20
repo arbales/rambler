@@ -15,7 +15,7 @@ class Rambler.Views.Stream extends Rambler.Views.Base
         _.each data, (s) =>
           @add s
         if data.length < 1
-          @add {text: "There are no messages in this room.", username: "Rambler", style: 'initial'}
+          @add {text: "There are no messages in this room. You're a pioneer.", username: "Rambler", style: 'initial'}
     
   send: (event) ->
     target = $(event.currentTarget).find("input")
