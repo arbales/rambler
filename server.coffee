@@ -46,6 +46,14 @@ Rambler.Live.Authenticater =
       message.data.username = "placeholder"
     callback message
     
+# TODO: Use postmark to notify people when they're mentioned somewhere.
+Rambler.Live.Mentionator =
+  incoming: (message, callback) ->
+    if (body = message?.data?.text)
+      mentions = body.match /@([A-Za-z0-9_]+)/g
+      notify for username in mentions
+      
+    
 live.addExtension Rambler.Live.Persister      
 live.addExtension Rambler.Live.Authenticater                        
 
