@@ -42,7 +42,7 @@ Rambler.Live.Persister =
 Rambler.Live.Authenticater =
   outgoing: (message, callback) ->    
     console.log message
-    if message.data and not message.channel.match /\/meta\//
+    if message.data and not message.data.username and not message.channel.match /\/meta\//
       message.data.username = "placeholder"
     callback message
     
@@ -89,5 +89,5 @@ require('routes.coffee')({app: app, db: db})
 # Startup    
 
 goose.helpExpress app
-app.listen(3000)
+app.listen(5555)
 live.attach(app)

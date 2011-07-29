@@ -13,6 +13,12 @@ UserSchema.plugin mongooseAuth,
     everyauth:
       User: ->
         User
+  facebook:
+    everyauth:
+      myHostname: 'http://austin.local'
+      appId: env.FACEBOOK_APP_ID
+      appSecret: env.FACEBOOK_APP_SECRET
+      redirectPath: '/'
   github:
     everyauth:
       myHostname: 'http://localhost:3000'

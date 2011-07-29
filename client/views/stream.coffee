@@ -41,6 +41,7 @@ class Rambler.Views.Stream extends Rambler.Views.Base
       maxHeight: 300,
       wmode: 'transparent',
       method: 'replace'
+      key: '9d0d36e4b1bf11e0a7394040d3dc5c07'
     
     $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
     false

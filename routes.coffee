@@ -39,7 +39,7 @@ module.exports = (context) ->
             title: 'Rambler'
     else                     
       req.session.returnTo = req.url
-      res.redirect '/auth/github'
+      res.redirect '/auth/facebook``'
       
   app.get '/', chat
   app.get '/room/:name', chat
