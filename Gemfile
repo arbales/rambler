@@ -1,5 +1,9 @@
 # A sample Gemfile
 source "http://rubygems.org"
 
-# gem "rails"
+gem 'foreman'
 gem 'compass'
+
+group :mac do
+  gem 'rb-fsevent'
+end

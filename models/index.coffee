@@ -15,13 +15,13 @@ UserSchema.plugin mongooseAuth,
         User
   facebook:
     everyauth:
-      myHostname: 'http://austin.local'
+      myHostname: env.RAMBLER_URL
       appId: env.FACEBOOK_APP_ID
       appSecret: env.FACEBOOK_APP_SECRET
       redirectPath: '/'
   github:
     everyauth:
-      myHostname: 'http://localhost:3000'
+      myHostname: env.RAMBLER_URL
       appId: env.GITHUB_APP_ID
       appSecret: env.GITHUB_APP_SECRET
       scope: 'repo'

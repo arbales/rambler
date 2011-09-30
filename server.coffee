@@ -1,5 +1,7 @@
 Rambler = {
   Live: {}
+  config:
+    port: 5000
 }
 sys = require 'sys'
 http = require 'http'  
@@ -84,10 +86,22 @@ app.configure 'production', ->
   
 app.get '/package.js', package.createServer()
 
-require('routes.coffee')({app: app, db: db})
+require('routes.coffee')(
+  app: app
+  db: db
+)
     
 # Startup    
 
 goose.helpExpress app
-app.listen(5555)
+app.listen(Rambler.config.port)
 live.attach(app)
+console.log '''
+                       _       .
+.___    ___  , _ , _   \ ___   |     ___  .___
+/   \  /   ` |' `|' `. |/   \  |   .'   ` /   \
+|   ' |    | |   |   | |    `  |   |----' |   '
+/     `.__/| /   '   / `___,' /\__ `.___, /
+'''
+console.log "\nRambler is now listening on port #{Rambler.config.port}"
+console.log "\nYou're tuned to KRES, The Rambler Error Station...\n"

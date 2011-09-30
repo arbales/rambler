@@ -33,13 +33,15 @@ module.exports = (context) ->
       return res.redirect target
 
     if req.loggedIn
+      console.log req.s
+
       res.render 'index.jade'
         layout: 'app.jade'
         locals:
             title: 'Rambler'
     else                     
       req.session.returnTo = req.url
-      res.redirect '/auth/facebook``'
+      res.redirect '/auth/facebook'
       
   app.get '/', chat
   app.get '/room/:name', chat
