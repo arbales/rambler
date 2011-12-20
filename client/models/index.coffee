@@ -1,1 +1,1 @@
-require './channel'
+exports.Channel = require './channel'

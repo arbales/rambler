@@ -7,13 +7,7 @@ window.Rambler = Rambler = {
   Live: {}
 }              
 
-# Not really happy with doing this with Stitch.
-# Using "require" here seems wrong and bloated.
-#
-# TODO: Use something like Jammit instead.                           
-#
-
-require 'models'
+Rambler.Models = require 'models'
 require 'views'             
 
 Rambler.client = new Faye.Client('/live')  
