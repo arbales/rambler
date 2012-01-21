@@ -1,8 +1,8 @@
-Rambler = {
+Rambler =
   Live: {}
   config:
     port: 5000
-}
+
 sys = require 'sys'
 http = require 'http'  
 express = require 'express'    
@@ -10,13 +10,16 @@ env = process.env
 require 'express-mongoose'
 live = require 'faye'  
 request = require 'request' 
-stitch = require 'stitch'      
+stitch = require 'stitch'
 
 # For Dataz
 db = require('models').db
 
 # Load authentication
 goose = require('models').mongooseAuth
+hash = require 'node_hash'
+
+
 
 ##
 ## Live
@@ -31,6 +34,7 @@ live = new live.NodeAdapter {
     port:   '6379'
     namespace:  '/rambler'
 }
+User = db.model 'User'
   
 Rambler.Live.Persister =
   incoming: (message, callback) ->
@@ -43,12 +47,35 @@ Rambler.Live.Persister =
 
 Rambler.Live.Authenticater =
   outgoing: (message, callback) ->    
-    console.log message
     if message.data and not message.data.username and not message.channel.match /\/meta\//
       message.data.username = "placeholder"
     callback message
-    
-live.addExtension Rambler.Live.Persister      
+
+  incoming: (message, callback) ->
+    if message.channel isnt '/meta/subscribe'
+      callback message
+
+    subscription = message.subscription
+    messageToken = message.ext and message.ext.pushToken or
+
+    if not messageToken
+      message.error = "You must provide an authentication token."
+      callback(message)
+
+    else
+      User.findOne {"facebook.id": message.ext.userName}, (error, user) ->
+        if user and user?.fb?.accessToken
+          userToken = hash.sha256 user.fb.accessToken, "salt"
+          if userToken is messageToken
+            # sick.
+          else
+            message.error = "Access token failure."
+        else
+          console.log "Fail"
+          message.error = "Access token failure."
+        callback(message)
+
+# live.addExtension Rambler.Live.Persister
 live.addExtension Rambler.Live.Authenticater                        
 
 

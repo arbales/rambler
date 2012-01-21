@@ -1,3 +1,8 @@
+hash = require 'node_hash'
+
+pushToken = (token) ->
+  hash.sha256 token, "salt"
+
 module.exports = (context) ->
   app = context.app
   db = context.db
@@ -7,7 +12,7 @@ module.exports = (context) ->
       res.redirect '/auth/github'
     else
    
-
+  # DANGER: Remove
   app.get '/reset', (req, res) ->
     Post = db.model 'Post'
     Post.remove()
@@ -26,19 +31,23 @@ module.exports = (context) ->
       locals:
         title: 'Login to Rambler'
               
-  chat = (req, res) ->       
+  chat = (req, res) ->
     if req.session.returnTo
       target = req.session.returnTo
       req.session.returnTo = undefined
       return res.redirect target
 
     if req.loggedIn
-      console.log req.s
+      # console.log req
+      req.session.pushToken = pushToken req.user.fb.accessToken
+
+      # console.log req.s
 
       res.render 'index.jade'
         layout: 'app.jade'
         locals:
-            title: 'Rambler'
+          pushToken: req.session.pushToken
+          title: 'Rambler'
     else                     
       req.session.returnTo = req.url
       res.redirect '/auth/facebook'

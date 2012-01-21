@@ -12,7 +12,8 @@
     "jade": ">= 0.12.1",
     "mongoose-auth": "latest",
     "request": "latest",
-    "stitch": "latest"
+    "stitch": "latest",
+    "node-hash": "latest"
   },
   "engine": "node 0.4.7"
 }
