@@ -24,6 +24,6 @@ module.exports = class Channel
     console.warn error    
 
   send: (text) ->   
-    Rambler.client.publish @url, {text: text, username: FACEBOOK_USERNAME}
+    Rambler.client.publish @url, {text: text}
   cancel: ->           
     @subscription.cancel()

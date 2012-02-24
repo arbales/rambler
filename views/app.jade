@@ -13,7 +13,16 @@ html
     // link(rel='stylesheet', href='/stylesheets/scrollbars.css')
     link(rel='stylesheet', href='/stylesheets/screen.css')                                    
     script
-      FACEBOOK_USERNAME='#{everyauth.facebook.user.name}';
+      Rambler = {
+        Models: {},
+        Views: {},
+        Resources: {},
+        Live: {},
+        Bootstrap: {
+          FacebookUserId: '#{everyauth.facebook.user.id}',
+          pushToken: '#{pushToken}'
+        }
+      };
     script(src="/live.js")
     script(src="/package.js")
     script

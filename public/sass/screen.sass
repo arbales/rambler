@@ -5,8 +5,10 @@
 
 /* @import "compass/reset";*/
 @import "compass/css3"
-                                                                                
-html      
+
+$top_bar_height: 48px
+
+html
   background-color: #EEE
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif
   min-width: 800px
@@ -19,15 +21,34 @@ html, body
   width: 100%
   overflow: hidden
 
-  
-body
+.top_bar
+  width: 100%
+  position: absolute
+  top: 0
+  left: 0
+  height: $top_bar_height
+  background-color: #111
+  z-index: 1
+  +linear-gradient(#111, #333)
+  border-bottom: 1px solid #000
+  +box-shadow(#333 0 -1px 0 inset, rgba(0,0,0,0.33) 0 1px 1px)
+
+  ul
+    li
+      display: inline-block
+      a
+        color: white
+
 
 .split
   +display-box
   +box-align(stretch)
   height: 100%
-  width: 100%
-  
+  top: $top_bar_height
+  right: 0
+  bottom: 0
+  left: 0
+
 #source_view
   // display: none!important
   +display-box

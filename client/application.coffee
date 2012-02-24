@@ -1,19 +1,11 @@
-# Namespaces
-
-window.Rambler = Rambler = {
-  Models: {}
-  Views: {}
-  Resources: {}   
-  Live: {}
-}              
-
 Rambler.Models = require 'models'
+auth = require 'auth'
 require 'views'             
 
 Rambler.client = new Faye.Client('/live')  
   
 #Rambler.client.addExtension Rambler.Live.Persister
-#Rambler.client.addExtension Rambler.Live.Authenticater    
+Rambler.client.addExtension auth
 
 class Rambler.Workspace extends Backbone.Router
   
