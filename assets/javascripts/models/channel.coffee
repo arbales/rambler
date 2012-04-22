@@ -1,5 +1,4 @@
-module.exports = class Channel
-
+class Rambler.Models.Channel
   constructor: (opts) ->
     @name = opts.name
     @url = opts.url      
