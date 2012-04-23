@@ -1,32 +1,23 @@
 # $:.unshift File.expand_path("../", __FILE__)
 require 'bundler'
-Bundler.require
-                                        
-require 'faye'
-require 'sinatra'
-require 'haml'
-require 'sprockets'
-require 'sprockets-sass'
-# require 'sprockets-helpers'
-# require 'sprockets-commonjs'
-require 'sass'
-require 'compass'
+Bundler.require ENV['RACK_ENV'] || :development
 
-require 'uglifier'
-#require "yui/compressor"
 
-require "./application"      
+require "./application"
+require './assets'
 
 use Faye::RackAdapter, :mount      => '/push',
                        :timeout    => 25
 #                       :extensions => [MyExtension.new]
 
-                          
 map '/assets' do
+  Rambler::Application.helpers Sinatra::Sprockets::Helpers
   run Sinatra::Sprockets.environment
 end
 
 map '/' do
-  run Application
+  Rambler::Application.set :sprockets, Sinatra::Sprockets.environment
+  run Rambler::Application
 end
+
 

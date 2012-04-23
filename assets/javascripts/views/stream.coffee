@@ -5,10 +5,10 @@ class Rambler.Views.Stream extends Rambler.Views.Base
 
   initialize: (options) ->  
     @channel = options.channel
-    @messages = @el.find('.messages')?[0]
+    @messages = $(@el).find('.messages')?[0]
     @channel.stream = @
 
-  pull: ->                       
+  pull: ->
     $.ajax
       url: "/#{@channel.name}/posts"
       success: (data) =>
@@ -16,7 +16,7 @@ class Rambler.Views.Stream extends Rambler.Views.Base
           @add s
         if data.length < 1
           @add {text: "There are no messages in this room. You're a pioneer.", username: "Rambler", style: 'initial'}
-    
+
   send: (event) ->
     event.preventDefault()
     target = $(event.currentTarget).find("input")
@@ -24,24 +24,24 @@ class Rambler.Views.Stream extends Rambler.Views.Base
     @channel.send value
     target.val ""
     false
-    
+
   add: (message) ->
     date = if message.date? then message.date else (new Date()).toJSON()
     msg = message?.text?.replace /(https?:\/\/[^\s]+)/g, (url) ->
       "<a href='#{url}'>#{url}</a>"
     el = $("<li>#{msg}<p class='details'><a class='user' href='/href'>#{message.username}</a> <time class='timeago' datetime='#{date}'></time></p></li>")  
     row = $(@messages).append el   
-    
+
     el.prev().toggleClass('previous')                          
-    
+
     if message.style then el.addClass message.style
-    
+
     $(el).find('time').timeago()         
     $(el).embedly
       maxHeight: 300,
       wmode: 'transparent',
       method: 'replace'
       key: '9d0d36e4b1bf11e0a7394040d3dc5c07'
-    
+
     $(@messages).prop("scrollTop", $(@messages).prop("scrollHeight"))
     false

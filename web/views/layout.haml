@@ -1,7 +1,8 @@
-!!!
+!!! 5
 %html
   %head
     %title Rambler                                          
     %script{type:'text/javascript', src: '/push.js'}
     = javascript_include_tag "application", debug: true
+    = stylesheet_link_tag "application", debug: true
   %body= yield
